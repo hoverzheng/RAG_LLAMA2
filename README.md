@@ -1,58 +1,46 @@
-# Streamlit Showcase: Unleashing the Power of RAG and LangChain
+# 通过ollama和streamlit，Chroma来构建RAG应用和专有知识库
 
-![Demo](data/demo.gif)
 
 ## Overview
 
-The Retrieval Augmented Engine (RAG) is a powerful tool for document retrieval, summarization, and interactive question-answering. This project utilizes LangChain, Streamlit, and Pinecone to provide a seamless web application for users to perform these tasks. With RAG, you can easily upload multiple PDF documents, generate vector embeddings for text within these documents, and perform conversational interactions with the documents. The chat history is also remembered for a more interactive experience.
+检索增强引擎 (RAG) 是用于文档检索、摘要和交互式问答的强大工具。该项目利用 LangChain、Streamlit 和 Chroma 为用户提供无缝的 Web 应用程序来执行这些任务。使用 RAG，您可以轻松上传多个 PDF 文档，为这些文档中的文本生成矢量嵌入，并与文档执行对话交互。聊天历史记录也会被记住，以获得更具互动性的体验。
 
-
-## Features
-
-- **Streamlit Web App**: The project is built using Streamlit, providing an intuitive and interactive web interface for users.
-- **Input Fields**: Users can input essential credentials like LLM URL or OpenAI API key through dedicated input fields.
-- **Document Uploader**: Users can upload multiple PDF files, which are then processed for further analysis.
-- **Document Splitting**: The uploaded PDFs are split into smaller text chunks, ensuring compatibility with models with token limits.
-- **Vector Embeddings**: The text chunks are converted into vector embeddings, making it easier to perform retrieval and question-answering tasks.
-- **Flexible Vector Storage**: You can choose to store vector embeddings in a local vector store (Chroma).
-- **Interactive Conversations**: Users can engage in interactive conversations with the documents, asking questions and receiving answers. The chat history is preserved for reference.
-
-
-## Prerequisites
-
-Before running the project, make sure you have the following prerequisites:
+## 依赖库
 
 - Python 3.7+
 - LangChain
 - Streamlit
-- An OpenAI API key
+- Ollama
 - PDF documents to upload
+
 
 ## Usage
 
-1. Clone the repository to your local machine:
+1. 将存储库克隆到本地：
 
    ```bash
    git clone https://github.com/wsxqaza12/RAG_LangChain_streamlit.git
    cd RAG_LangChain_streamlit
    ```
 
-2. Install the required dependencies by running:
+2. 通过运行以下命令安装所需的依赖项：
    ```bash
    pip install -r requirements.txt
    ```
+   
+3. 下载模型all-MiniLM-L6-v2到本地，若可以的话，也可以直接访问
+
+4. 安装ollama，并通过ollama安装模型llama2-chinese大模型
+   安装ollama大模型管理框架，并pull大模型：llama2-chinese。
+   其中ollama服务，并在/etc/systemd/system/ollama.service文件种添加`Environment="OLLAMA_HOST=0.0.0.0:11434"`，这样可以远程访问。
 
 3. Run the Streamlit app:
    ```bash
    streamlit run rag_engine.py
    ```
 
-4. Access the app by opening a web browser and navigating to the provided URL.
+6. 上传想要分析的pdf文档
 
-5. Input your LLM URL or OpenAI API key, 
+7. 点击"Submit Documents" 来处理pdf文档并生成vector embeddings.
 
-6. Upload the PDF documents you want to analyze.
-
-7. Click the "Submit Documents" button to process the documents and generate vector embeddings.
-
-8. Engage in interactive conversations with the documents by typing your questions in the chat input box.
+9. 通过在聊天输入框中键入您的问题，与文档进行交互式对话。
