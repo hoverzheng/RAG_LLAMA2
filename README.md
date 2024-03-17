@@ -1,5 +1,8 @@
 # 通过ollama和streamlit，Chroma来构建RAG应用和专有知识库
 
+## 说明
+在之前源码的基础上进行了修改，使用ollama来管理大模型很方便，而且通过ollama提供的接口也很方便使用。
+
 
 ## Overview
 
