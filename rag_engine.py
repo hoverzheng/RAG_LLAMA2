@@ -9,6 +9,7 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.memory import ConversationBufferMemory
+from langchain_community.chat_models import ChatOllama
 
 import streamlit as st
 
@@ -20,13 +21,17 @@ st.title("Streamlit Showcase: Unleashing the Power of RAG and LangChain")
 mode = st.sidebar.radio(
     "LLM type：",
     ('Your own LLM', 'openAI'))
-if mode == 'Your own LLM':
-    openai_api_base = st.sidebar.text_input('URL:', type='default')
-    openai_api_key = 'None'
-elif mode == 'openAI':
-    openai_api_base = st.sidebar.text_input('api_base:', type='password')
-    openai_api_key = st.sidebar.text_input('key:', type='password')
+#if mode == 'Your own LLM':
+#    openai_api_base = st.sidebar.text_input('URL:', type='default')
+#    openai_api_key = 'None'
+#elif mode == 'openAI':
+#    openai_api_base = st.sidebar.text_input('api_base:', type='password')
+#    openai_api_key = st.sidebar.text_input('key:', type='password')
 
+
+# hover changed
+openai_api_base = "http://localhost:11434/v1/chat/completions"
+openai_api_key = 'None'
 
 
 def load_documents():
@@ -40,7 +45,8 @@ def split_documents(documents):
     return texts
 
 def embeddings_on_local_vectordb(texts):
-    model_name = "sentence-transformers/all-MiniLM-L6-v2"
+    #model_name = "sentence-transformers/all-MiniLM-L6-v2"
+    model_name = "/opt/models/all-MiniLM-L6-v2"
     model_kwargs = {'device': 'cpu'}
     embeddings = HuggingFaceEmbeddings(model_name=model_name,
                                     model_kwargs=model_kwargs)
@@ -51,7 +57,9 @@ def embeddings_on_local_vectordb(texts):
     return retriever
 
 def define_llm():
-    llm = ChatOpenAI(openai_api_key=openai_api_key, openai_api_base=openai_api_base)
+    #llm = ChatOpenAI(openai_api_key=openai_api_key, openai_api_base=openai_api_base)
+    llm = ChatOllama(model="llama2-chinese:latest")
+
     return llm
 
 def query_llm(retriever, query):
@@ -127,11 +135,15 @@ def boot():
     #
     if query := st.chat_input():
         st.chat_message("human").write(query)
+        print(query)
 
-        if "retriever" in st.session_state:
-            response = query_llm(st.session_state.retriever, query)
-        else:
-            response = query_llm_direct(query)
+        #if "retriever" in st.session_state:
+        #    response = query_llm(st.session_state.retriever, query)
+        #else:
+        #    response = query_llm_direct(query)
+        #response = query_llm_direct(query)
+        response = query_llm(st.session_state.retriever, query)
+
 
         st.chat_message("ai").write(response)
 
